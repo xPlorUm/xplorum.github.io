@@ -244,6 +244,9 @@ html {
 }
 
 /* Creator */
+#creator {
+  padding-top: 0;
+}
 .content {
     display : none;
 }
