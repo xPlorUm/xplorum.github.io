@@ -3,30 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My JS Playground</title>
+    <title>Photo Album Creator</title>
+    <link href="style.css" rel="stylesheet">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
+    <main>
+        <div id="start" class="section">
+            <!-- <img class="img-container" src="images/background_start.jpg"> -->
+            <div class="section-center">
+                <div class="title">
+                    <h1>Photo Album Creator</h1>
+                </div>
+                <form id="album_title">
+                    <input type="text" title="atitle" value="Album Title"><br>
+                </form>
+                <a href="#creator" class="start-button">Click to Start!</a>
+            </div>
+        </div>
+        <nav class="navbar">
+            <div class="btn-container">
+                <button class="tab-btn active" data-id="add-images">Add Images</button>
+                <button class="tab-btn" data-id="choose-layout">Choose Layout</button>
+                <button class="tab-btn" data-id="choose-design">Choose Design</button>
+                <button class="tab-btn" data-id="preview">Preview</button>
+            </div>
+        </nav>
 
-    <h1>Hello from GitHub Pages 🚀</h1>
+        <div id="creator" class="section">
+            <div class="content active" id="add-images">
+                <h4>Add your Images here!</h4>
+            </div>
+            <div class="content" id="choose-layout">
+                <h4>Choose your Layout!</h4>
+            </div>
+            <div class="content" id="choose-design">
+                <h4>Choose your Design!</h4>
+            </div>
+            <div class="content" id="preview">
+                <h4>Look at your Preview!</h4>
+            </div>
+        </div>
 
-    <p id="output">Click the button!</p>
 
-    <button onclick="handleClick()">Click me</button>
+    </main>
 
-    <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
