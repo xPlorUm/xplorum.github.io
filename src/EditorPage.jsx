@@ -52,7 +52,6 @@ function NavBar(){
 function PhotoQueue(){
     return (
         <div className="queue-container">
-            <
             <p>Empty yet</p>
         </div>
     )
