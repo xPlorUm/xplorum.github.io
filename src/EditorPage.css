@@ -1,0 +1,43 @@
+
+/* Navigation */
+.nav-container{
+    border: 1px solid blue;
+}
+
+.nav-container table{
+    width: 100%;
+    table-layout: fixed;
+}
+
+.nav-container th{
+    width: auto;
+    border: 1px solid green;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* Main part */
+main{
+    place-items: center;
+}
+
+.drag-container{
+    border: 1px black;
+    border-style: dashed;
+    /* margin-top: 5rem; */
+    height: 10rem;
+    width: 20rem;
+}
+
+.queue-container{
+    border: 1px black solid;
+    margin-top: 5rem;
+    height: 30rem;
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 10%;
+}
+
+
