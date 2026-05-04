@@ -2,14 +2,34 @@ import './EditorPage.css';
 import { useState } from "react";
 
 
+function dropHandler(ev) {
+  ev.preventDefault();
+  const files = [...ev.dataTransfer.items]
+    .map((item) => item.getAsFile())
+    .filter((file) => file);
+//   displayImages(files);
+}
 
 function ImageDropZone(){
+    const dropZone = document.getElementById("drop-zone");
+    dropZone.addEventListener("drop", dropHandler);
+    dropZone.addEventListener("drop", (e) => {
+        if ([...e.dataTransfer.items].some((item) => item.kind === "file"))
+        {
+            e.preventDefault();
+        }
+    });
+ 
+    dropZone.addEventListener("dragover", (e) => {
+        // const fileItems = [...e.dataTransfer.items]
+    });
+
     return(
         <>
         <h3>Add Images</h3>
-        <div className="drag-container">
-            <h4> Drag & Drop your Images</h4>
-        </div>
+        <label id='drop-zone'> Drag & Drop your Images
+            <input type='file' id='file-input' multiple accept="image/*"/>
+        </label>
         </>
     )
 }
@@ -19,9 +39,10 @@ function CaptionForm(){
         <form>
             <label for='date'>Date(dd.mm.yyyy)</label>
             <input type="text" id='date' placeholder=''/>
-
-            <label for='caption'>Caption</label>
-            <input type="text" id='caption'/>
+            <div className='caption-container'>
+                <label for='caption'>Caption</label>
+                <input type="text" id='caption'/>
+            </div>
         </form>
     )
 }
@@ -40,10 +61,12 @@ function NavBar(){
     return (
         <nav className='nav-container'>
             <table>
-                <th><button className='nav-item'>Add Images</button></th>
-                <th><button className='nav-item'>Layout</button></th>
-                <th><button className='nav-item'>Design</button></th>
-                <th><button className='nav-item'>Preview</button></th>
+                <tr>
+                    <th><button className='nav-item'>Add Images</button></th>
+                    <th><button className='nav-item'>Layout</button></th>
+                    <th><button className='nav-item'>Design</button></th>
+                    <th><button className='nav-item'>Preview</button></th>
+                </tr>
             </table>
         </nav>
     )

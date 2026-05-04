@@ -23,13 +23,6 @@ main{
     place-items: center;
 }
 
-.drag-container{
-    border: 1px black;
-    border-style: dashed;
-    /* margin-top: 5rem; */
-    height: 10rem;
-    width: 20rem;
-}
 
 .queue-container{
     border: 1px black solid;
@@ -38,6 +31,24 @@ main{
     width: 80%;
     margin-left: 10%;
     margin-bottom: 10%;
+}
+
+#drop-zone{  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    max-width: 100%;
+    height: 200px;
+    padding: 1em;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    color: slategray;
+    cursor: pointer;
+}
+
+#file-input{
+    display: none;
 }
 
 
