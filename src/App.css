@@ -1,0 +1,17 @@
+.App {
+  display:grid;
+  align-items: center;
+  justify-content: center;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    width : 100vw;
+    min-height: 100vh;
+    padding: 1rem;
+    gap: 1rem;
+    box-sizing: border-box;
+    border: black 1px solid;
+    max-width: 900px;
+}
