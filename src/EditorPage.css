@@ -19,32 +19,86 @@
 
 
 /* Main part */
-main{
-    place-items: center;
-}
-
-
-.queue-container{
-    border: 1px black solid;
-    margin-top: 5rem;
-    height: 30rem;
-    width: 80%;
-    margin-left: 10%;
-    margin-bottom: 10%;
+#photo-entry-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 900px;
 }
 
 #drop-zone{  
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 500px;
-    max-width: 100%;
-    height: 200px;
+    width: 80%;
+    min-height: 20vh;
+    max-height: 30vh;
     padding: 1em;
     border: 1px solid #cccccc;
     border-radius: 4px;
     color: slategray;
     cursor: pointer;
+}
+
+#queue-container{
+    border: 1px black solid;
+    width: 100%;
+    max-height: 30vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+    gap: 1rem;
+    overflow-y: scroll;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.photo-container{
+    position: relative;
+    width: 8rem;
+    height: 10rem;
+    padding: 0.75rem;
+    overflow: hidden;
+    border: 1px black solid;
+}
+.photo-container img{
+    position: absolute;
+    right: 0.75rem;
+    bottom: 2.5rem;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+.photo-remove-button {
+    all: unset;
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.photo-caption{
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.5rem;
+    margin: 0;
+    color: grey;
+    text-align: right;
+    width: 100px;
+}
+.photo-date{
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+    margin: 0;
+    color: grey;
+    text-align: right;
+    width: 100px;
 }
 
 #file-input{

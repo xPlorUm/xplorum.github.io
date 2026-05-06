@@ -4,9 +4,7 @@ import { useState } from "react";
 function TitlePage(){
     return (
         <div className="container">
-            <div className='title-container'>
-                <h1>Photo Album Creator</h1>
-            </div>
+            <h1>Photo Album Creator</h1>
             <form>
                 <input type='text' placeholder='Album Title'/>
                 <div className='btn-container'>
