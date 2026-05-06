@@ -162,13 +162,14 @@ function NavBar(){
 }
 
 function PhotoIcon({id, filename, url, caption, date, onRemove}){
+    const visibleCaption = caption.length > 10 ? caption.slice(0, 10)+"..." : caption;
     return (
         <div className='photo-container' key={url}>
             <button className='photo-remove-button'>
                 <FontAwesomeIcon icon="fa-solid fa-x" color='red' onClick={onRemove}/>
             </button>
             <img src={url} alt={filename} width={100} height={100}/>
-            <p className='photo-caption'>{caption}</p>
+            <label className='photo-caption' title={caption}>{visibleCaption}</label>
             <p className='photo-date'>{date}</p>
         </div>
     )
