@@ -1,6 +1,8 @@
 import {useState, useRef} from "react";
 import ReactDOM from 'react-dom';
-import {useSortable} from '@dnd-kit/react/sortable';
+import {DragDropProvider} from '@dnd-kit/react';
+import {useSortable, isSortable} from '@dnd-kit/react/sortable';
+import {move} from '@dnd-kit/helpers';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -12,12 +14,12 @@ library.add(fas, far, fab)
 
 
 function PhotoIcon({id, filename, url, caption, date, index, onRemove}){
-    const {ref} = useSortable({id, index});
+    const sortable = useSortable({id, index});
 
     const visibleCaption = caption.length > 10 ? caption.slice(0, 10)+"..." : caption;
     return (
         <li 
-        ref={ref}
+        ref={sortable.ref}
         className='photo-container' 
         key={url}>
             <button className='photo-remove-button'onClick={onRemove} onMouseDown={e => e.stopPropagation()}>
@@ -34,16 +36,38 @@ function PhotoQueue({photos, setPhotos}){
     const removePhoto = (id) => {
         setPhotos(prev => prev.filter(photo => photo.id !== id));
     };
+    const handleDragEnd = (event, manager) => {
+        const {operation, canceled} = event;
+        const {source} = operation;
+        if (canceled){
+            return;
+        }
+
+        if(isSortable(source)){
+            const {initialIndex, index} = source;
+            console.log(index, initialIndex);
+            if(index !== initialIndex){
+                setPhotos((items) => {
+                    const newItems = [...items];
+                    const [removed] = newItems.splice(initialIndex, 1); // remove 1 at initial index, no replace
+                    newItems.splice(index, 0, removed); // reinsert at new index the removed one
+                    return newItems;
+                })
+            }
+        }
+    }
 
     return (
-        <div id="queue-container">
-            {photos.map((photo, index) => 
-            <PhotoIcon  key={photo.id} 
-                        {...photo} 
-                        index={index}
-                        onRemove={() => removePhoto(photo.id)}/>
-            )}
-        </div>
+        <DragDropProvider onDragEnd={handleDragEnd}>
+            <div id="queue-container">
+                {photos.map((photo, index) => 
+                <PhotoIcon  key={photo.id} 
+                            {...photo} 
+                            index={index}
+                            onRemove={() => removePhoto(photo.id)}/>
+                )}
+            </div>
+        </DragDropProvider>
     )
 }
 

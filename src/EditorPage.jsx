@@ -168,7 +168,6 @@ const expl_objects = [
 
 function EditorPage(){
     const [photos, setPhotos] = useState(expl_objects);
-
     return (
         <div className='container'>
             <NavBar/>
