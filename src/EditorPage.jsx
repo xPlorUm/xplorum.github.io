@@ -1,12 +1,16 @@
 import './EditorPage.css';
 import { useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { far } from '@fortawesome/free-regular-svg-icons'
-import { fab } from '@fortawesome/free-brands-svg-icons'
 
-library.add(fas, far, fab)
+import PhotoQueue from './PhotoQueue';
+
+
+const INITIAL_FORM_STATE = {
+    imgName: '',
+    imgURL: '',
+    caption: '',
+    date: '',
+    error: ''
+};
 
 
 class PhotoObject{
@@ -99,13 +103,6 @@ function CaptionForm({formData, setFormData}){
         </form>
     )
 }
-const INITIAL_FORM_STATE = {
-    imgName: '',
-    imgURL: '',
-    caption: '',
-    date: '',
-    error: ''
-};
 
 function PhotoEntryPanel(
     {   photos, 
@@ -161,50 +158,22 @@ function NavBar(){
     )
 }
 
-function PhotoIcon({id, filename, url, caption, date, onRemove}){
-    const visibleCaption = caption.length > 10 ? caption.slice(0, 10)+"..." : caption;
-    return (
-        <div className='photo-container' key={url}>
-            <button className='photo-remove-button'>
-                <FontAwesomeIcon icon="fa-solid fa-x" color='red' onClick={onRemove}/>
-            </button>
-            <img src={url} alt={filename} width={100} height={100}/>
-            <label className='photo-caption' title={caption}>{visibleCaption}</label>
-            <p className='photo-date'>{date}</p>
-        </div>
-    )
-}
 
-function PhotoQueue({photos, onRemovePhoto}){
-    let items = []
-    photos.forEach(function(photo){
-        items.push(
-        <PhotoIcon 
-        key={photo.id} 
-        {...photo} 
-        onRemove={() => onRemovePhoto(photo.id)}
-        />
-    )
-    })
-
-    return (
-        <div id="queue-container">
-            {items}
-        </div>
-    )
-}
-
+const expl_objects = [
+    new PhotoObject(0, "IMG_20190622_160211.jpg", "test1", "/IMG_20190622_160211.jpg", "22.06.2019"),
+    new PhotoObject(1, "IMG_20190630_003521.jpg", "test1", "/IMG_20190630_003521.jpg", "30.06.2019"),
+    new PhotoObject(2, "IMG_20190630_122725.jpg", "test1", "/IMG_20190630_122725.jpg", "30.06.2019"),
+    new PhotoObject(3, "IMG_20190702_191256.jpg", "test1", "/IMG_20190702_191256.jpg", "02.07.2019"),
+]
 
 function EditorPage(){
-    const [photos, setPhotos] = useState([]);
-    const removePhoto = (id) => {
-    setPhotos(prev => prev.filter(photo => photo.id !== id));
-    };
+    const [photos, setPhotos] = useState(expl_objects);
+
     return (
         <div className='container'>
             <NavBar/>
             <PhotoEntryPanel photos={photos} setPhotos={setPhotos}/>
-            <PhotoQueue photos={photos} onRemovePhoto={removePhoto}/>
+            <PhotoQueue photos={photos} setPhotos={setPhotos}/>
         </div>
     )
 }

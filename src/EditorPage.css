@@ -43,6 +43,7 @@
 }
 
 #queue-container{
+    position: relative;
     border: 1px black solid;
     width: 100%;
     max-height: 30vh;
@@ -61,6 +62,7 @@
     padding: 0.75rem;
     overflow: hidden;
     border: 1px black solid;
+    background-color: white;
 }
 .photo-container img{
     position: absolute;
