@@ -16,7 +16,7 @@ library.add(fas, far, fab)
 function PhotoIcon({id, filename, url, caption, date, index, onRemove}){
     const sortable = useSortable({id, index});
 
-    const visibleCaption = caption.length > 10 ? caption.slice(0, 10)+"..." : caption;
+    const visibleCaption = caption.length > 10 ? caption.slice(0, 10) + "..." : caption;
     return (
         <li 
         ref={sortable.ref}

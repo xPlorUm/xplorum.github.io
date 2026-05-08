@@ -1,7 +1,10 @@
 import './EditorPage.css';
 import { useState } from "react";
+import { DragDropProvider, useDroppable } from '@dnd-kit/react';
 
 import PhotoQueue from './PhotoQueue';
+import NavBar from './NavBar';
+import PhotoObject from './App.jsx';
 
 
 const INITIAL_FORM_STATE = {
@@ -11,18 +14,6 @@ const INITIAL_FORM_STATE = {
     date: '',
     error: ''
 };
-
-
-class PhotoObject{
-    constructor(id, filename, caption, url, date){
-        this.id = id;
-        this.filename = filename;
-        this.caption = caption;
-        this.url = url;
-        this.date = date;
-    }
-
-}
 
 function isValidDateFormat(date){
     if (!/^[0-9]{2}\.[0-9]{2}\.[0-9]{4}$/.test(date)) {
@@ -40,6 +31,7 @@ function isValidDateFormat(date){
 function ImageDropZone({ formData, setFormData}){
     const setImgURL = (value) => setFormData(prev => ({ ...prev, imgURL: value }));
     const setImgName = (value) => setFormData(prev => ({ ...prev, imgName: value }));
+    const { isDropTarget, ref } = useDroppable({ id: 'image-drop-zone' });
 
     const handleDrop = (ev) => {
         ev.preventDefault();
@@ -50,7 +42,6 @@ function ImageDropZone({ formData, setFormData}){
         setImgName(file.name);
     };
 
-    // only selects the first file yet
     const handleFileSelect = (ev) => {
         const file = ev.target.files?.[0];
         if (!file) return;
@@ -59,29 +50,40 @@ function ImageDropZone({ formData, setFormData}){
         setImgName(file.name);
         ev.target.value = '';
     };
-    
+
     const dragoverHandler = (e) => {
-        const fileItems = [...e.dataTransfer.items].filter(
-            (item) => item.kind === "file",
-        );
-        if (fileItems.length > 0) {
-            e.preventDefault();
-            if (fileItems.some((item) => item.type.startsWith("image/"))) {
-                e.dataTransfer.dropEffect = "copy";
-            } else {
-                e.dataTransfer.dropEffect = "none";
-            }
-        }
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'copy';
     }
+
+    const dropZoneStyle = {
+        border: '2px dashed #aaa',
+        borderRadius: 12,
+        padding: 24,
+        textAlign: 'center',
+        transition: 'background-color 0.2s ease, border-color 0.2s ease',
+        backgroundColor: isDropTarget ? '#eef6ff' : 'transparent',
+        borderColor: isDropTarget ? '#4d8cff' : '#aaa',
+        cursor: 'pointer',
+    };
+
     return(
-        <>
-        <h3>Add Images</h3>
-        <label id='drop-zone' onDrop={handleDrop} onDragOver={dragoverHandler}>
-            <input type='file' id='file-input' multiple accept="image/*" onChange={handleFileSelect}/>
-            {!formData.imgURL && <p>Drag & Drop your Image</p>}
-            {formData.imgURL && <img src={formData.imgURL} alt={formData.imgName} className='drop-preview' width={100} height={100} />}
-        </label>
-        </>
+        <DragDropProvider>
+            <div ref={ref} id='drop-zone' style={dropZoneStyle} onDrop={handleDrop} onDragOver={dragoverHandler}>
+                <input
+                    type='file'
+                    id='file-input'
+                    multiple
+                    accept="image/*"
+                    onChange={handleFileSelect}
+                    style={{ display: 'none' }}
+                />
+                <label htmlFor='file-input' style={{ cursor: 'pointer' }}>
+                    {!formData.imgURL && <p>{isDropTarget ? 'Drop here to upload your image' : 'Drag & drop an image here, or click to browse.'}</p>}
+                    {formData.imgURL && <img src={formData.imgURL} alt={formData.imgName} className='drop-preview' width={100} height={100} />}
+                </label>
+            </div>
+        </DragDropProvider>
     )
 }
 
@@ -141,36 +143,12 @@ function PhotoEntryPanel(
     )
 }
 
-function NavBar(){
-    return (
-        <nav className='nav-container'>
-            <table>
-                <tbody>
-                    <tr>
-                        <th><button className='nav-item'>Add Images</button></th>
-                        <th><button className='nav-item'>Layout</button></th>
-                        <th><button className='nav-item'>Design</button></th>
-                        <th><button className='nav-item'>Preview</button></th>
-                    </tr>
-                </tbody>
-            </table>
-        </nav>
-    )
-}
 
-
-const expl_objects = [
-    new PhotoObject(0, "IMG_20190622_160211.jpg", "test1", "/IMG_20190622_160211.jpg", "22.06.2019"),
-    new PhotoObject(1, "IMG_20190630_003521.jpg", "test1", "/IMG_20190630_003521.jpg", "30.06.2019"),
-    new PhotoObject(2, "IMG_20190630_122725.jpg", "test1", "/IMG_20190630_122725.jpg", "30.06.2019"),
-    new PhotoObject(3, "IMG_20190702_191256.jpg", "test1", "/IMG_20190702_191256.jpg", "02.07.2019"),
-]
-
-function EditorPage(){
-    const [photos, setPhotos] = useState(expl_objects);
+function EditorPage({setPage, photos, setPhotos}){
+    const [formData, setFormData] = useState(INITIAL_FORM_STATE);
     return (
         <div className='container'>
-            <NavBar/>
+            <NavBar setPage={setPage}/>
             <PhotoEntryPanel photos={photos} setPhotos={setPhotos}/>
             <PhotoQueue photos={photos} setPhotos={setPhotos}/>
         </div>

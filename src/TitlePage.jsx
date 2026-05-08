@@ -1,14 +1,14 @@
 import './TitlePage.css';
 import { useState } from "react";
 
-function TitlePage(){
+function TitlePage({albumTitle, setAlbumTitle, setPage}){
     return (
         <div className="container">
             <h1>Photo Album Creator</h1>
             <form>
-                <input type='text' placeholder='Album Title'/>
+                <input type='text' placeholder='Album Title' value={albumTitle} onChange={(e) => setAlbumTitle(e.target.value)}/>
                 <div className='btn-container'>
-                    <button>Click to Start!</button>
+                    <button onClick={() => setPage("editor")}>Click to Start!</button>
                 </div>
             </form>
         </div>
